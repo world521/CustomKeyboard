@@ -19,10 +19,7 @@ typedef enum : NSUInteger {
 
 @interface MXKeyboard : UIView
 
-- (instancetype)initWithKeyboardClickBlock:(void(^)(MXKeyButtonType type, NSString *text)) keyboardClickBlock;
-+ (instancetype)keyboardWithClickBlock:(void(^)(MXKeyButtonType type, NSString *text)) keyboardClickBlock;
-
-@property (nonatomic, copy) void(^keyboardClickBlock)(MXKeyButtonType type, NSString *text);
+@property (nonatomic, weak) UITextField *textField;
 
 /** 打乱按键顺序 */
 - (void)exchangeTheOrder;

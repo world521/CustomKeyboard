@@ -7,8 +7,32 @@
 //
 
 #import "UITextField+Extension.h"
+#import <objc/runtime.h>
+#import "MXKeyboard.h"
 
 @implementation UITextField (Extension)
+
++ (void)load {
+    SEL originBFSel = @selector(becomeFirstResponder);
+    SEL swizzleBFSel = @selector(becomeFirstResponder_bd_swizzle);
+    Method originM = class_getInstanceMethod(self, originBFSel);
+    Method swizzleM = class_getInstanceMethod(self, swizzleBFSel);
+    BOOL addSuccess = class_addMethod(self, originBFSel, method_getImplementation(swizzleM), method_getTypeEncoding(swizzleM));
+    if (addSuccess) {
+        class_addMethod(self, swizzleBFSel, method_getImplementation(originM), method_getTypeEncoding(originM));
+    } else {
+        method_exchangeImplementations(originM, swizzleM);
+    }
+}
+
+- (BOOL)becomeFirstResponder_bd_swizzle {
+    BOOL becomeF = [self becomeFirstResponder_bd_swizzle];
+    if (becomeF && [self.inputView isKindOfClass:[MXKeyboard class]]) {
+        MXKeyboard *kb = (MXKeyboard *)self.inputView;
+        kb.textField = self;
+    }
+    return becomeF;
+}
 
 /**
  *  修改textField中的文字(会调用代理方法/调用target的UIControlEvent方法/发出通知)
@@ -73,7 +97,5 @@
         }
     }
 }
-
-
 
 @end

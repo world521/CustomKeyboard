@@ -162,17 +162,6 @@
 
 #pragma mark -- 子视图的初始化
 
-- (instancetype)initWithKeyboardClickBlock:(void (^)(MXKeyButtonType, NSString *))keyboardClickBlock {
-    if (self = [self initWithFrame:CGRectZero]) {
-        self.keyboardClickBlock = keyboardClickBlock;
-    }
-    return self;
-}
-
-+ (instancetype)keyboardWithClickBlock:(void (^)(MXKeyButtonType, NSString *))keyboardClickBlock {
-    return [[self alloc] initWithKeyboardClickBlock:keyboardClickBlock];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     CGRect fra = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, KEY_BOARD_HEIGHT);
     self = [super initWithFrame:fra];
@@ -589,14 +578,14 @@
  *  @param keyBtn 按键
  */
 - (void)keyBtnClicked:(MXKeyboardButton *)keyBtn {
-    if (self.keyboardClickBlock) {
-        if (keyBtn.type == MXKeyButtonTypeSpace) {
-            self.keyboardClickBlock(keyBtn.type, @" ");
-        } else if (keyBtn.type == MXKeyButtonTypeDel || keyBtn.type == MXKeyButtonTypeDone) {
-            self.keyboardClickBlock(keyBtn.type, @"");
-        } else {
-            self.keyboardClickBlock(keyBtn.type, keyBtn.currentTitle);
-        }
+    if (keyBtn.type == MXKeyButtonTypeDone) {
+        [self.textField resignFirstResponder];
+    } else if (keyBtn.type == MXKeyButtonTypeDel) {
+        [self.textField changetext:@""];
+    } else if (keyBtn.type == MXKeyButtonTypeSpace) {
+        [self.textField changetext:@" "];
+    } else {
+        [self.textField changetext:keyBtn.currentTitle];
     }
 }
 
