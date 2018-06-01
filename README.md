@@ -3,4 +3,4 @@
 
 ## 使用
 
-
+textField.inputView = [[MXKeyboard alloc] init];
