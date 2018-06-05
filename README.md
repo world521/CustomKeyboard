@@ -4,3 +4,5 @@
 ## 使用
 
 textField.inputView = [[MXKeyboard alloc] init];
+
+![](https://world521.github.io/assets/img/custom_kb.gif)
