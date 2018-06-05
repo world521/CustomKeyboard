@@ -10,11 +10,11 @@
 #import "MXKeyboardButton.h"
 #import "UITextField+Extension.h"
 
-typedef enum : NSUInteger {
+typedef NS_ENUM(NSUInteger, MXKeyboardOtherType) {
     MXKeyboardOtherTypeAlphabet, // 键盘类型: 字母
     MXKeyboardOtherTypeNumeric,  // 键盘类型: 数字
     MXKeyboardOtherTypeSymbol,   // 键盘类型: 符号
-} MXKeyboardOtherType;
+};
 
 
 @interface MXKeyboard : UIView
